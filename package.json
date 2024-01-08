@@ -1,0 +1,42 @@
+{
+  "name": "ecomyu-api",
+  "productName": "ecomyu",
+  "version": "0.1.0",
+  "description": "ecomyu api",
+  "homepage": "https://ecomyu.com",
+  "bugs": "https://github.com/tomohiroorikasa/ecomyu-api/issues",
+  "repository": "github.com:tomohiroorikasa/ecomyu-api",
+  "keywords": [],
+  "author": "Tomohiro Orikasa <tomohiro@ocids.com> (https://github.com/tomohiroorikasa/)",
+  "license": "GPL-3.0-or-later",
+  "main": "app.mjs",
+  "scripts": {
+    "start": "fastify start -l info app.mjs",
+    "dev": "fastify start -w -l info -P app.mjs"
+  },
+  "dependencies": {
+    "@aws-sdk/client-cognito-identity-provider": "^3.484.0",
+    "@aws-sdk/client-s3": "^3.484.0",
+    "@fastify/autoload": "^5.8.0",
+    "@fastify/caching": "^8.3.0",
+    "@fastify/cors": "^8.5.0",
+    "@fastify/helmet": "^11.1.1",
+    "@fastify/jwt": "^7.2.4",
+    "@fastify/mongodb": "^8.0.0",
+    "@fastify/multipart": "^8.0.0",
+    "@fastify/sensible": "^5.5.0",
+    "autolinker": "^4.0.0",
+    "axios": "^1.6.3",
+    "clone-deep": "^4.0.1",
+    "dayjs": "^1.11.10",
+    "fastify": "^4.25.2",
+    "fastify-cli": "^6.0.0",
+    "fastify-i18n": "^1.1.1",
+    "fastify-plugin": "^4.5.1",
+    "jwks-rsa": "^3.1.0",
+    "randomstring": "^1.3.0",
+    "really-relaxed-json": "^0.3.2",
+    "sanitize-html": "^2.11.0",
+    "validator": "^13.11.0"
+  }
+}
