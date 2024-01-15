@@ -145,31 +145,30 @@ export default fastifyPlugin(function (fastify, opts, done) {
             })
 
             if (!user) {
-              throw new Error('Not Found User')
-            }
+              // throw new Error('Not Found User')
+            } else {
+              await fastify.mongo.db.collection('Tokens').updateMany({
+                userId: user._id,
+                token: {
+                  $ne: headers.authorization
+                },
+                email: email,
+              }, {
+                $set: {
+                  deleted: true,
+                  deletedAt: new Date()
+                }
+              })
 
-            await fastify.mongo.db.collection('Tokens').updateMany({
-              userId: user._id,
-              token: {
-                $ne: headers.authorization
-              },
-              email: email,
-            }, {
-              $set: {
-                deleted: true,
-                deletedAt: new Date()
+              token = {
+                userId: user._id,
+                email: email,
+                token: headers.authorization,
+                expiresIn: dayjs().add(process.env.TOKEN_EXPIRATION, 'seconds').toDate()
               }
-            })
 
-            token = {
-              userId: user._id,
-              email: email,
-              token: headers.authorization,
-              expiresIn: dayjs().add(process.env.TOKEN_EXPIRATION, 'seconds').toDate()
+              await fastify.mongo.db.collection('Tokens').insertOne(token)
             }
-
-            const inserted = await fastify.mongo.db.collection('Tokens').insertOne(token)
-            token._id = inserted.insertedId
           }
         } catch(e) {
           console.log(e)

@@ -3,13 +3,13 @@
 ecomyu-apiはSNSサービスを開始するためのプラットフォームecomyu(Free版)のAPIサービス部分です。
 
 ## Documentation
-- [インストール方法](https://guide.ecomyu.com/INSTALL.html)
+[インストール方法](https://guide.ecomyu.com/INSTALL.html)
 
 ## Requirements
-- AWS S3, Cognito, MongoDB
+AWS S3, Cognito, MongoDB
 
 ## Installation
-- guide.ecomyu.com/INSTALL for EC2
+guide.ecomyu.com/INSTALL for EC2
 
 ## License
 This project is open source and available under the GPL-3.0 License.
