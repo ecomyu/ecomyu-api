@@ -86,7 +86,8 @@ export default async function (fastify, opts) {
           $project: {
             _id: 1,
             postedAt: 1,
-            postedBy: 1
+            postedBy: 1,
+            deleted: 1
           }
         }
       ]
