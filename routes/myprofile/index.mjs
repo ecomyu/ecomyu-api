@@ -105,7 +105,7 @@ export default async function (fastify, opts) {
       }
 
       const user = {
-        id: Shuffle((new Date()).getTime().toString(36) + Math.random().toString(36).slice(2)),
+        id: Shuffle((new Date()).getTime().toString(36) + Math.random().toString(36).slice(2)).slice(0, 20),
         handle: data.handle,
         email: email,
       }
