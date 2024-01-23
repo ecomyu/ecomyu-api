@@ -213,6 +213,98 @@ export default async function (fastify, opts) {
       }
 
       await fastify.mongo.db
+        .collection('Follows')
+        .updateMany({
+          $or: [{
+            otherUserId: currentUser._id,
+          }, {
+            userId: currentUser._id
+          }]
+        }, {
+          $set: {
+            deleted: true,
+            deletedAt: new Date(),
+            deletedBy: currentUser._id
+          }
+        })
+
+      await fastify.mongo.db
+        .collection('Blocks')
+        .updateMany({
+          $or: [{
+            otherUserId: currentUser._id,
+          }, {
+            userId: currentUser._id
+          }]
+        }, {
+          $set: {
+            deleted: true,
+            deletedAt: new Date(),
+            deletedBy: currentUser._id
+          }
+        })
+
+      await fastify.mongo.db
+        .collection('Posts')
+        .updateMany({
+          postedBy: currentUser._id
+        }, {
+          $set: {
+            deleted: true,
+            deletedAt: new Date(),
+            deletedBy: currentUser._id
+          }
+        })
+
+      await fastify.mongo.db
+        .collection('Likes')
+        .updateMany({
+          userId: currentUser._id
+        }, {
+          $set: {
+            deleted: true,
+            deletedAt: new Date(),
+            deletedBy: currentUser._id
+          }
+        })
+
+      await fastify.mongo.db
+        .collection('Saws')
+        .updateMany({
+          postedBy: currentUser._id
+        }, {
+          $set: {
+            deleted: true,
+            deletedAt: new Date(),
+            deletedBy: currentUser._id
+          }
+        })
+
+      await fastify.mongo.db
+        .collection('Notices')
+        .updateMany({
+          postedBy: currentUser._id
+        }, {
+          $set: {
+            deleted: true,
+            deletedAt: new Date(),
+            deletedBy: currentUser._id
+          }
+        })
+
+      await fastify.mongo.db
+        .collection('Tokens')
+        .updateMany({
+          userId: currentUser._id
+        }, {
+          $set: {
+            deleted: true,
+            deletedAt: new Date(),
+            deletedBy: currentUser._id
+          }
+        })
+
+      await fastify.mongo.db
         .collection('Users')
         .updateOne({
           _id: currentUser._id
