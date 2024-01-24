@@ -99,6 +99,8 @@ export default async function (fastify, opts) {
       const toUserIds = await Followers(fastify, currentUser)
       await GenerateNotice(fastify, req, 'reference', currentUser._id, toUserIds, ret._id)
 
+      await GenerateNotice(fastify, req, 'referenced', currentUser._id, [post.postedBy], ret._id)
+
       await EmitBackgroundNotice(fastify,
         'referenced',
         {
