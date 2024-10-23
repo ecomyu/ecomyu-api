@@ -435,13 +435,3 @@ export const GenerateNotice = async (fastify, req, action, currentUserId, toUser
       .insertOne(Clone(notice))
   }
 }
-
-export const EmitBackgroundNotice = async (fastify, action, notice) => {
-  try {
-    await fastify.io.emit('msg', `data:application/vnd.${action},${encodeURIComponent(JSON.stringify(notice))}`)
-  } catch (e) {
-    console.log(e)
-    return false
-  }
-  return true
-}

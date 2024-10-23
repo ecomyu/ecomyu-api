@@ -1,4 +1,4 @@
-import { IsBoolean, IsNumber, Clone, FilterData, CurrentUser, AdUsers, Followers, ValidateData, RecursiveEach, RecursivePosts, AutoTags, GenerateNotice, EmitBackgroundNotice, SaveFile, LoadFile } from "../../../lib.mjs"
+import { IsBoolean, IsNumber, Clone, FilterData, CurrentUser, AdUsers, Followers, ValidateData, RecursiveEach, RecursivePosts, AutoTags, GenerateNotice, SaveFile, LoadFile } from "../../../lib.mjs"
 
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc.js'
@@ -102,13 +102,6 @@ export default async function (fastify, opts) {
               viewsCount: 1
             }
           })
-
-        await EmitBackgroundNotice(fastify,
-          'viewed',
-          {
-            postId: new fastify.mongo.ObjectId(req.params.id)
-          }
-        )
 
         ret = FilterData(post, schema)
       }
@@ -435,35 +428,6 @@ export default async function (fastify, opts) {
 
         ret._id = post._id
         ret.deleted = true
-
-      await EmitBackgroundNotice(fastify,
-        'deleted',
-        {
-          postId: post._id,
-          userId: currentUser._id
-        }
-      )
-
-      if (post.refId || post.parentId) {
-        let emitAction
-        let emitPostId
-        if (post.refId) {
-          emitAction = 'unreferenced'
-          emitPostId = post.refId
-        } else if (post.parentId) {
-          emitAction = 'uncommented'
-          emitPostId = post.parentId
-        }
-
-        await EmitBackgroundNotice(fastify,
-          emitAction,
-          {
-            postId: emitPostId,
-            userId: currentUser._id
-          }
-        )
-      }
-
     } catch (err) {
       console.error(err)
       reply.code(400).send(err)

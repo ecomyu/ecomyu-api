@@ -1,4 +1,4 @@
-import { CurrentUser, GenerateNotice, EmitBackgroundNotice } from "../../../../lib.mjs"
+import { CurrentUser, GenerateNotice } from "../../../../lib.mjs"
 
 export default async function (fastify, opts) {
   fastify.get('/count', async (req, reply) => {
@@ -96,15 +96,6 @@ export default async function (fastify, opts) {
 
       const toUserIds = [data.postedBy]
       await GenerateNotice(fastify, req, 'like', currentUser._id, toUserIds, data._id)
-
-      await EmitBackgroundNotice(fastify,
-        'liked',
-        {
-          postId: new fastify.mongo.ObjectId(req.params.id),
-          userId: currentUser._id
-        }
-      )
-
     } catch (err) {
       console.error(err)
       reply.code(400).send(err)
@@ -146,14 +137,6 @@ export default async function (fastify, opts) {
         })
 
       // ret._id = deleted.deletedId
-      await EmitBackgroundNotice(fastify,
-        'unliked',
-        {
-          postId: new fastify.mongo.ObjectId(req.params.id),
-          userId: currentUser._id
-        }
-      )
-
     } catch (err) {
       console.error(err)
       reply.code(400).send(err)
