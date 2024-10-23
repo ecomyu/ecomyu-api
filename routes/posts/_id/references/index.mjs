@@ -1,4 +1,4 @@
-import { CurrentUser, Followers, ValidateData, AutoTags, GenerateNotice, EmitBackgroundNotice } from "../../../../lib.mjs"
+import { CurrentUser, Followers, ValidateData, AutoTags, GenerateNotice } from "../../../../lib.mjs"
 
 const postRules = {
   text: {
@@ -100,15 +100,6 @@ export default async function (fastify, opts) {
       await GenerateNotice(fastify, req, 'reference', currentUser._id, toUserIds, ret._id)
 
       await GenerateNotice(fastify, req, 'referenced', currentUser._id, [post.postedBy], ret._id)
-
-      await EmitBackgroundNotice(fastify,
-        'referenced',
-        {
-          postId: post._id,
-          userId: currentUser._id
-        }
-      )
-
     } catch (err) {
       console.error(err)
       reply.code(400).send(err)
